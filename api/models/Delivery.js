@@ -12,7 +12,7 @@ const Delivery = sequelize.define('deliveries', {
         allowNull: false
     },
     value: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
     }
 })
 

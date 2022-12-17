@@ -64,7 +64,7 @@ const patchStatus = async (req, res) => {
     try {
         // Retrieve the statusId from the request body
         const { statusId } = req.body
-
+        
         // Find a single delivery record in the database where the id field matches the id parameter in the request URL
         const delivery = await Delivery.findOne({where: {id: req.params.id}})
 

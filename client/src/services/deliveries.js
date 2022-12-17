@@ -15,7 +15,7 @@ const create = async (delivery) => {
     return response.data
 }
 const patchStatus = async (id, statusId) => {
-    const response = await axios.patch(`${baseUrl}/${id}`, statusId)
+    const response = await axios.patch(`${baseUrl}/${id}`, {statusId: statusId})
     return response.data
 }
 const remove = async (id) => {
