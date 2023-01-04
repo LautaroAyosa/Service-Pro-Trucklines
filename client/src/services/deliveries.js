@@ -14,6 +14,12 @@ const create = async (delivery) => {
     const response = await axios.post(baseUrl, delivery)
     return response.data
 }
+
+const update = async (id, delivery) => {
+    const response = await axios.put(`${baseUrl}/${id}`, delivery)
+    return response.data
+}
+
 const patchStatus = async (id, statusId) => {
     const response = await axios.patch(`${baseUrl}/${id}`, {statusId: statusId})
     return response.data
@@ -28,6 +34,7 @@ export default {
     getAll,
     getOne,
     create,
+    update,
     patchStatus,
     remove,
 }

@@ -46,7 +46,7 @@ const Back = () => {
   },[dispatch])
 
   return (
-    <div id="dashboard" className="h-100">
+    <div id="dashboard" className="h-100 ">
       <Routes>
         <Route path='/*' exact element={<Dashboard />} />
       </Routes>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink as RouterNavLink } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
 import { DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, UncontrolledDropdown } from 'reactstrap';
+import DashboardHeader from './DashboardHeader';
 
 
 const Sidebar = ({children}) => {
@@ -22,6 +23,8 @@ const Sidebar = ({children}) => {
       returnTo: window.location.origin,
     });
 
+    console.log(window.width)
+
     const menuItem=[
         {
             path:"/dashboard/",
@@ -29,8 +32,8 @@ const Sidebar = ({children}) => {
             icon:<i className="fa-solid fa-chart-line"></i>
         },
         {
-            path:"/dashboard/table",
-            name:"Tables",
+            path:"/dashboard/deliveries",
+            name:"Deliveries",
             icon:<i className="fa-solid fa-table-list"></i>
         },
         {
@@ -91,7 +94,10 @@ const Sidebar = ({children}) => {
                     </UncontrolledDropdown>
                 </div>
             </div>
-            <main className="container py-5">{children}</main>
+            <div className='d-flex flex-column w-100'>
+                <DashboardHeader />
+                <main className="container py-5">{children}</main>
+            </div>
         </div>
     );
 };

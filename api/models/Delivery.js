@@ -11,9 +11,18 @@ const Delivery = sequelize.define('deliveries', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    division: { 
+        type: DataTypes.STRING,
+    },
     value: {
         type: DataTypes.FLOAT,
-    }
+    },
+    date: {
+        type: DataTypes.DATE,
+    },
+    payed: {
+        type: DataTypes.BOOLEAN,
+    },
 })
 
 const Status = sequelize.define('status', {
@@ -30,8 +39,8 @@ const Status = sequelize.define('status', {
     timestamps: false
 })
 
-Status.hasMany(Delivery)
-Delivery.belongsTo(Status)
+Delivery.belongsTo(Status, { foreignKey: 'statusId' });
+Status.hasMany(Delivery, { foreignKey: 'statusId' });
 
 module.exports = {
     Delivery,

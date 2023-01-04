@@ -7,15 +7,16 @@ import Loading from "../components/Loading";
 import Form from "../components/Form/Form"
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import DeliveriesTable from "../components/DeliveriesTable/DeliveriesTable";
-import Summarizers from "../components/Summarizers";
+import DashboardSummary from "../components/Dashboard";
 
 const Dashboard = () => (
     <>
         <Sidebar>
             <div className="dashboard-content">
                 <Routes>
+                    <Route path="/" exact element={<DashboardSummary />} />
                     <Route path="/forms" element={<Form />} />
-                    <Route path="/table" element={<DeliveriesTable />} />
+                    <Route path="/deliveries" element={<DeliveriesTable />} />
                 </Routes>
             </div>
         </Sidebar>

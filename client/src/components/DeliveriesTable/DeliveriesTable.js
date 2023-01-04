@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { startOfDay, endOfDay, addDays, subDays, startOfMonth, endOfMonth } from 'date-fns';
 import Filter from "../Filter";
 import Pagination from "../Pagination";
 
 import Delivery from "./Delivery";
+import DateFilter from "../DateFilter";
 
 const DeliveriesTable = () => {
     const deliveries = useSelector(state => state.deliveries)
@@ -11,8 +13,11 @@ const DeliveriesTable = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [rows, setRows] = useState(10)
 
+    const now = new Date()
+    const [dates, setDates] = useState([new Date(now.getFullYear(), now.getMonth(), 1), now])
+
     // Filter deliveries by deliveryId using the search input
-    const filteredDeliveries = deliveries.filter((delivery) => {
+    const searchFiltered = deliveries.filter((delivery) => {
         if (filter === "") {
             return delivery;
         } else {
@@ -20,6 +25,18 @@ const DeliveriesTable = () => {
             return delivery.deliveryId.toLowerCase().includes(lowerCase)
         }
     }) 
+
+    // Filter the searchFiltered object by date
+    const filteredDeliveries = searchFiltered.filter((delivery) => {
+        if(dates === null) {
+            return delivery.date
+        } else {
+            // console.log(delivery.date)
+            // console.log('date 0: ', startOfDay(dates[0]))
+            // console.log('date 1: ', endOfDay(dates[1]))
+            return delivery.date >= dates[0].toISOString() && delivery.date <= dates[1].toISOString()
+        }
+    })
 
     // Get Current Posts
     const indexOfLastPost = currentPage * rows
@@ -32,8 +49,11 @@ const DeliveriesTable = () => {
     return (
         <>
             <legend>Deliveries Table</legend>
-            <div className="d-flex  py-3">
-                <div className="d-flex pe-3">
+            <div className="d-flex py-3 align-items-center">
+                <span className="px-2">
+                    <strong>{filteredDeliveries.length}</strong> Deliveries found
+                </span>
+                <div className="d-flex px-2">
                     <select onChange={event => setRows(event.target.value)} className="form-select">
                         <option value={10}>10</option>
                         <option value={25}>25</option>
@@ -42,13 +62,19 @@ const DeliveriesTable = () => {
                     </select>
                 </div>
                 <Filter />
+                <div className="px-2">
+                    <DateFilter dates={dates} setDates={setDates} />
+                </div>
             </div>
-            <table className="table table-hover">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Delivery Id</th>
                         <th>Status</th>
+                        <th>Division</th>
                         <th>Value</th>
+                        <th>Date</th>
+                        <th>Payed</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

@@ -36,13 +36,16 @@ const getOneDelivery = async (req, res) => {
 const createDelivery = async (req, res) => {
     try {
         // Retrieve the deliveryId, value and statusId from the request body
-        const { deliveryId, value, statusId } = req.body
+        const { deliveryId, division, value, statusId, date, payed} = req.body
 
         // Create a new delivery object with the information provided
         const delivery = await Delivery.create({
             deliveryId,
+            division,
             value,
-            statusId
+            statusId,
+            date,
+            payed,
         })
 
         // Reload the delivery record to include the related Status model
@@ -55,6 +58,39 @@ const createDelivery = async (req, res) => {
         // Send the new delivery object as a JSON response to the client with a status code of 201 (Created)
         res.status(201).json(delivery)
     } catch(err) {
+        // Log any errors that occurred during the process
+        console.log(err)
+    }
+}
+
+
+const updateDelivery = async (req, res) => {
+    try {
+        // Retrieve the deliveryId, value and statusId from the request body
+        const { deliveryId, division, value, statusId, date, payed} = req.body
+
+        // Edit the selected Delivery object with the information provided
+        const delivery = await Delivery.update({
+            deliveryId,
+            division,
+            value,
+            statusId,
+            date,
+            payed,
+        }, {
+            where: {id: req.params.id},
+        })
+
+        const updatedDelivery = await Delivery.findOne({
+            where: {id: req.params.id},
+            include: [
+                Status
+            ]
+        })
+
+        // Send the new delivery object as a JSON response to the client with a status code of 200 (Ok)
+        res.status(200).json(updatedDelivery)
+    } catch (err) {
         // Log any errors that occurred during the process
         console.log(err)
     }
@@ -116,6 +152,7 @@ module.exports = {
     getDeliveries,
     getOneDelivery,
     createDelivery,
+    updateDelivery,
     patchStatus,
     deleteDelivery
 }

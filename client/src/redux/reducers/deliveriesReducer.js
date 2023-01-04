@@ -56,7 +56,7 @@ export const updateDelivery = (id, deliveryToUpdate) => {
                 type: '@deliveries/update_delivery',
                 payload: {id: id, delivery: updatedDelivery}
             })
-            dispatch(createNotification(`"${updatedDelivery.delivery.Id}" updated successfuly`, 'success'))
+            dispatch(createNotification(`"${updatedDelivery.deliveryId}" updated successfuly`, 'success'))
         } catch (error) {
             dispatch(createNotification(error.response.data.error, 'error'))
         }
@@ -66,6 +66,7 @@ export const updateDeliveryStatus = (id, statusId) => {
     return async (dispatch) => {
         try {
             const updatedDelivery = await deliveriesServices.patchStatus(id, statusId)
+            console.log(updatedDelivery)
             dispatch({
                 type: '@deliveries/update_delivery',
                 payload: {id: id, delivery: updatedDelivery}
